@@ -3,6 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Quote } from "lucide-react"
+import { useState, useEffect } from "react"
 
 interface Testimonial {
   id: number
@@ -11,40 +12,59 @@ interface Testimonial {
   company: string
   testimonial: string
   avatar: string
+  featured: string
 }
 
-// Static testimonials data
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Amina Hassan",
-    role: "Founder & CEO",
-    company: "TechSolutions Tanzania",
-    testimonial:
-      "TYCC's Youth Business Incubator transformed my tech startup idea into a thriving business. The mentorship and networking opportunities were invaluable in securing our first major clients.",
-    avatar: "/placeholder.svg?height=100&width=100",
-  },
-  {
-    id: 2,
-    name: "John Mwalimu",
-    role: "Co-founder",
-    company: "GreenAgri Innovations",
-    testimonial:
-      "The Digital Skills program equipped me with the knowledge to scale my agricultural business online. Within 6 months, we increased our revenue by 300% through e-commerce platforms.",
-    avatar: "/placeholder.svg?height=100&width=100",
-  },
-  {
-    id: 3,
-    name: "Grace Kimaro",
-    role: "Managing Director",
-    company: "Kimaro Fashion House",
-    testimonial:
-      "The Women in Business Track gave me the confidence and skills to expand my fashion business across East Africa. The support network I built continues to be instrumental in my success.",
-    avatar: "/placeholder.svg?height=100&width=100",
-  },
-]
-
 export function TestimonialsSection() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch('/api/testimonials')
+        if (!response.ok) {
+          throw new Error('Failed to fetch testimonials')
+        }
+        const data = await response.json()
+        // Filter for featured testimonials only
+        const featuredTestimonials = data.filter((testimonial: Testimonial) => testimonial.featured === "1")
+        setTestimonials(featuredTestimonials)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTestimonials()
+  }, [])
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p>Loading testimonials...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +87,11 @@ export function TestimonialsSection() {
                 </blockquote>
                 <div className="flex items-center space-x-4">
                   <Avatar className="h-12 w-12">
-                    <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
+                    <AvatarImage
+                      src={`https://tycc.e-saloon.online/${testimonial.avatar}` || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
                     <AvatarFallback className="bg-tycc-blue text-white">
                       {testimonial.name
                         .split(" ")

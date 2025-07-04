@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Lightbulb, Laptop, Users, Calendar, Globe } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface Program {
   id: number
@@ -10,65 +11,38 @@ interface Program {
   description: string
   category: string
   duration: string
-  participants: number
+  participants: string
   icon: string
+  featured: string
+  image: string
 }
 
-// Static data - no API calls needed
-const programs: Program[] = [
-  {
-    id: 1,
-    title: "Youth Business Incubator",
-    description:
-      "A comprehensive 6-month program that provides young entrepreneurs with mentorship, funding opportunities, and business development support to transform innovative ideas into viable businesses.",
-    category: "Incubation",
-    duration: "6 months",
-    participants: 150,
-    icon: "lightbulb",
-  },
-  {
-    id: 2,
-    title: "Digital Skills for Entrepreneurs",
-    description:
-      "Equipping young business owners with essential digital marketing, e-commerce, and technology skills needed to thrive in the modern business landscape.",
-    category: "Digital Skills",
-    duration: "3 months",
-    participants: 200,
-    icon: "laptop",
-  },
-  {
-    id: 3,
-    title: "Women in Business Track",
-    description:
-      "A specialized program designed to empower young women entrepreneurs with leadership skills, networking opportunities, and access to women-focused funding initiatives.",
-    category: "Women Empowerment",
-    duration: "4 months",
-    participants: 120,
-    icon: "users",
-  },
-  {
-    id: 4,
-    title: "Youth Business Summit",
-    description:
-      "An annual flagship event bringing together young entrepreneurs, investors, and industry leaders for networking, knowledge sharing, and partnership opportunities.",
-    category: "Events",
-    duration: "3 days",
-    participants: 500,
-    icon: "calendar",
-  },
-  {
-    id: 5,
-    title: "AfCFTA Access Program",
-    description:
-      "Preparing young entrepreneurs to leverage opportunities within the African Continental Free Trade Area through market research, trade facilitation, and cross-border business development.",
-    category: "Trade",
-    duration: "5 months",
-    participants: 80,
-    icon: "globe",
-  },
-]
-
 export function FeaturedPrograms() {
+  const [programs, setPrograms] = useState<Program[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        const response = await fetch('/api/programs')
+        if (!response.ok) {
+          throw new Error('Failed to fetch programs')
+        }
+        const data = await response.json()
+        // Filter for featured programs only
+        const featuredPrograms = data.filter((program: Program) => program.featured === "1")
+        setPrograms(featuredPrograms)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPrograms()
+  }, [])
+
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case "lightbulb":
@@ -84,6 +58,30 @@ export function FeaturedPrograms() {
       default:
         return <Lightbulb className="h-8 w-8" />
     }
+  }
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p>Loading programs...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   return (
@@ -115,6 +113,11 @@ export function FeaturedPrograms() {
                   <span>Duration: {program.duration}</span>
                   <span>{program.participants}+ participants</span>
                 </div>
+                <img
+                  src={`https://tycc.e-saloon.online/${program.image}` || "/placeholder.svg"}
+                  alt={program.title}
+                  className="w-full h-full object-cover"
+                />
               </CardContent>
             </Card>
           ))}

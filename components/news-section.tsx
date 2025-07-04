@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface NewsItem {
   id: number
@@ -13,43 +14,59 @@ interface NewsItem {
   date: string
   image: string
   slug: string
+  featured: boolean
 }
 
-// Static news data
-const news: NewsItem[] = [
-  {
-    id: 1,
-    title: "TYCC Launches New Digital Innovation Hub",
-    excerpt:
-      "A state-of-the-art facility equipped with modern technology to support young entrepreneurs in developing digital solutions for local and regional markets.",
-    category: "Innovation",
-    date: "2024-01-20",
-    image: "/placeholder.svg?height=300&width=500",
-    slug: "tycc-launches-digital-innovation-hub",
-  },
-  {
-    id: 2,
-    title: "50 Young Entrepreneurs Graduate from Business Incubator",
-    excerpt:
-      "The latest cohort of the Youth Business Incubator program celebrates successful completion, with 80% of participants launching viable businesses.",
-    category: "Programs",
-    date: "2024-01-18",
-    image: "/placeholder.svg?height=300&width=500",
-    slug: "50-entrepreneurs-graduate-business-incubator",
-  },
-  {
-    id: 3,
-    title: "Partnership with African Development Bank Announced",
-    excerpt:
-      "TYCC signs MOU with AfDB to provide $2M in funding support for youth-led businesses across Tanzania over the next three years.",
-    category: "Partnerships",
-    date: "2024-01-15",
-    image: "/placeholder.svg?height=300&width=500",
-    slug: "partnership-african-development-bank",
-  },
-]
-
 export function NewsSection() {
+  const [news, setNews] = useState<NewsItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch('/api/news')
+        if (!response.ok) {
+          throw new Error('Failed to fetch news')
+        }
+        const data = await response.json()
+        // Get the first 3 featured news items
+        const featuredNews = data.filter((item: NewsItem) => item.featured).slice(0, 3)
+        setNews(featuredNews)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNews()
+  }, [])
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p>Loading news...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
