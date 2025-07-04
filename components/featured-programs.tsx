@@ -114,7 +114,7 @@ export function FeaturedPrograms() {
                   <span>{program.participants}+ participants</span>
                 </div>
                 <img
-                  src={`https://tycc.e-saloon.online/${program.image}` || "/placeholder.svg"}
+                  src={`https://tycc.e-saloon.online/public/storage/${program.image}` || "/placeholder.svg"}
                   alt={program.title}
                   className="w-full h-full object-cover"
                 />

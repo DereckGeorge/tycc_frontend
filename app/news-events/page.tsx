@@ -120,7 +120,7 @@ export default function NewsEventsPage() {
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="aspect-video lg:aspect-auto bg-gradient-to-br from-tycc-blue to-blue-800">
                   <img
-                    src={`https://tycc.e-saloon.online/${featuredNews[0].image}` || "/placeholder.svg"}
+                    src={`https://tycc.e-saloon.online/public/storage/${featuredNews[0].image}` || "/placeholder.svg"}
                     alt={featuredNews[0].title}
                     className="w-full h-full object-cover"
                   />
@@ -157,7 +157,7 @@ export default function NewsEventsPage() {
               >
                 <div className="aspect-video bg-gradient-to-br from-tycc-blue to-blue-800 relative">
                   <img
-                    src={`https://tycc.e-saloon.online/${article.image}` || "/placeholder.svg"}
+                    src={`https://tycc.e-saloon.online/public/storage/${article.image}` || "/placeholder.svg"}
                     alt={article.title}
                     className="w-full h-full object-cover"
                   />

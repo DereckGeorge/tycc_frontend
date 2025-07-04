@@ -26,12 +26,16 @@ export function NewsSection() {
     const fetchNews = async () => {
       try {
         const response = await fetch('/api/news')
+        
         if (!response.ok) {
           throw new Error('Failed to fetch news')
         }
+        
         const data = await response.json()
+        
         // Get the first 3 featured news items
         const featuredNews = data.filter((item: NewsItem) => item.featured).slice(0, 3)
+        
         setNews(featuredNews)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
@@ -93,7 +97,11 @@ export function NewsSection() {
               className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
             >
               <div className="aspect-video bg-gradient-to-br from-tycc-blue to-blue-800 relative">
-                <img src={item.image || "/placeholder.svg"} alt={item.title} className="w-full h-full object-cover" />
+                <img
+                  src={`https://tycc.e-saloon.online/public/storage/${item.image}` || "/placeholder.svg"}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
                 <div className="absolute top-4 left-4">
                   <Badge className="bg-tycc-gold text-gray-900">{item.category}</Badge>
                 </div>

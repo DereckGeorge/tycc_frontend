@@ -201,7 +201,7 @@ export default function ResourcesPage() {
                 <div className="aspect-video bg-gradient-to-br from-tycc-blue to-blue-800 relative rounded-t-lg">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src={`https://tycc.e-saloon.online/${webinar.thumbnail}` || "/placeholder.svg"}
+                      src={`https://tycc.e-saloon.online/public/storage/${webinar.thumbnail}` || "/placeholder.svg"}
                       alt={webinar.title}
                       className="w-full h-full object-cover"
                     />

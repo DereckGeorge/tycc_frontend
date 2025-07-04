@@ -76,7 +76,7 @@ export function PartnersSection() {
               className="flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all duration-300"
             >
               <img
-                src={`https://tycc.e-saloon.online/${partner.logo}` || "/placeholder.svg"}
+                src={`https://tycc.e-saloon.online/public/storage/${partner.logo}` || "/placeholder.svg"}
                 alt={partner.name}
                 className="w-full h-auto max-h-24 object-contain"
               />

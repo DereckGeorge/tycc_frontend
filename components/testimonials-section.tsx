@@ -88,7 +88,7 @@ export function TestimonialsSection() {
                 <div className="flex items-center space-x-4">
                   <Avatar className="h-12 w-12">
                     <AvatarImage
-                      src={`https://tycc.e-saloon.online/${testimonial.avatar}` || "/placeholder.svg"}
+                      src={`https://tycc.e-saloon.online/public/storage/${testimonial.avatar}` || "/placeholder.svg"}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover"
                     />
