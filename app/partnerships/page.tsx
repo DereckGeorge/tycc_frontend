@@ -1,72 +1,29 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Building, Users, Globe, Award, ArrowRight, CheckCircle } from "lucide-react"
+import Link from "next/link"
 
-const partners = [
-  {
-    id: 1,
-    name: "African Development Bank",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "Financial Institution",
-    description:
-      "Leading development finance institution providing funding and technical assistance for youth entrepreneurship programs.",
-    partnership: "Strategic funding partner providing $2M over 3 years for youth business development initiatives.",
-    since: "2022",
-    featured: true,
-  },
-  {
-    id: 2,
-    name: "UNDP Tanzania",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "International Organization",
-    description:
-      "United Nations Development Programme supporting sustainable development and youth empowerment initiatives.",
-    partnership: "Collaborative programs on youth employment and sustainable development goals implementation.",
-    since: "2021",
-    featured: true,
-  },
-  {
-    id: 3,
-    name: "Tanzania Chamber of Commerce",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "Business Association",
-    description: "National chamber of commerce facilitating business development and trade promotion.",
-    partnership: "Joint advocacy and business development programs for young entrepreneurs.",
-    since: "2020",
-    featured: true,
-  },
-  {
-    id: 4,
-    name: "Mastercard Foundation",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "Foundation",
-    description: "Global foundation focused on advancing learning and promoting financial inclusion for young people.",
-    partnership: "Financial inclusion and digital skills training programs for youth entrepreneurs.",
-    since: "2023",
-    featured: false,
-  },
-  {
-    id: 5,
-    name: "World Bank Group",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "Financial Institution",
-    description: "International financial institution providing loans and grants for development projects.",
-    partnership: "Technical assistance and capacity building support for entrepreneurship programs.",
-    since: "2022",
-    featured: false,
-  },
-  {
-    id: 6,
-    name: "USAID Tanzania",
-    logo: "/placeholder.svg?height=80&width=200",
-    category: "Government Agency",
-    description: "United States Agency for International Development supporting economic growth initiatives.",
-    partnership: "Market access and trade facilitation programs for young entrepreneurs.",
-    since: "2021",
-    featured: false,
-  },
-]
+interface Partner {
+  id: number
+  name: string
+  logo: string
+  category: string
+  description: string
+  partnership_details: string
+  website: string
+  partnership_since: string
+  partnership_type: string
+  status: string
+  featured: boolean
+  contact_person: string
+  contact_email: string
+  services_provided: string
+  sectors_focus: string
+}
 
 const partnershipTypes = [
   {
@@ -110,6 +67,52 @@ const partnershipBenefits = [
 ]
 
 export default function PartnershipsPage() {
+  const [partners, setPartners] = useState<Partner[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const response = await fetch('/api/partners')
+        if (!response.ok) {
+          throw new Error('Failed to fetch partners')
+        }
+        
+        const data = await response.json()
+        setPartners(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPartners()
+  }, [])
+
+  if (loading) {
+    return (
+      <main className="min-h-screen">
+        <div className="flex items-center justify-center min-h-screen">
+          <p>Loading partnerships...</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen">
+        <div className="flex items-center justify-center min-h-screen">
+          <p className="text-red-600">Error: {error}</p>
+        </div>
+      </main>
+    )
+  }
+
+  const featuredPartners = partners.filter(partner => partner.featured)
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -172,30 +175,29 @@ export default function PartnershipsPage() {
           </div>
 
           <div className="space-y-8">
-            {partners
-              .filter((partner) => partner.featured)
-              .map((partner) => (
-                <Card key={partner.id} className="border-0 shadow-lg overflow-hidden">
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-1 bg-white p-8 flex items-center justify-center">
-                      <div className="text-center">
-                        <img
-                          src={partner.logo || "/placeholder.svg"}
-                          alt={partner.name}
-                          className="max-h-20 w-auto mx-auto mb-4 grayscale hover:grayscale-0 transition-all duration-300"
-                        />
-                        <h3 className="text-xl font-bold text-tycc-blue">{partner.name}</h3>
-                        <Badge variant="secondary" className="bg-tycc-gold text-gray-900 mt-2">
-                          {partner.category}
-                        </Badge>
-                        <div className="text-sm text-gray-500 mt-2">Partner since {partner.since}</div>
-                      </div>
+            {featuredPartners.map((partner) => (
+              <Card key={partner.id} className="border-0 shadow-lg overflow-hidden">
+                <div className="grid lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-1 bg-white p-8 flex items-center justify-center">
+                    <div className="text-center">
+                      <img
+                        src={`https://tycc.e-saloon.online/public/storage/${partner.logo}` || "/placeholder.svg"}
+                        alt={partner.name}
+                        className="max-h-20 w-auto mx-auto mb-4 grayscale hover:grayscale-0 transition-all duration-300"
+                      />
+                      <h3 className="text-xl font-bold text-tycc-blue">{partner.name}</h3>
+                      <Badge variant="secondary" className="bg-tycc-gold text-gray-900 mt-2">
+                        {partner.category}
+                      </Badge>
+                      <div className="text-sm text-gray-500 mt-2">Partner since {partner.partnership_since}</div>
                     </div>
-                    <div className="lg:col-span-2 p-8">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-3">About the Partnership</h4>
-                      <p className="text-gray-600 mb-4">{partner.description}</p>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-3">Collaboration Details</h4>
-                      <p className="text-gray-600 mb-6">{partner.partnership}</p>
+                  </div>
+                  <div className="lg:col-span-2 p-8">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">About the Partnership</h4>
+                    <p className="text-gray-600 mb-4">{partner.description}</p>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">Collaboration Details</h4>
+                    <p className="text-gray-600 mb-6">{partner.partnership_details}</p>
+                    <Link href={`/partners/${partner.id}`}>
                       <Button
                         variant="outline"
                         className="border-tycc-blue text-tycc-blue hover:bg-tycc-blue hover:text-white bg-transparent"
@@ -203,10 +205,11 @@ export default function PartnershipsPage() {
                         Learn More
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
-                    </div>
+                    </Link>
                   </div>
-                </Card>
-              ))}
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -221,13 +224,14 @@ export default function PartnershipsPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
             {partners.map((partner) => (
-              <div
+              <Link
                 key={partner.id}
+                href={`/partners/${partner.id}`}
                 className="flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all duration-300 group"
               >
                 <div className="text-center">
                   <img
-                    src={partner.logo || "/placeholder.svg"}
+                    src={`https://tycc.e-saloon.online/public/storage/${partner.logo}` || "/placeholder.svg"}
                     alt={partner.name}
                     className="max-h-16 w-auto object-contain mx-auto mb-2"
                   />
@@ -235,7 +239,7 @@ export default function PartnershipsPage() {
                     {partner.name}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

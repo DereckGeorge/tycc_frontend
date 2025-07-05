@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
 interface Partner {
   id: number
@@ -71,16 +72,17 @@ export function PartnersSection() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
           {partners.map((partner) => (
-            <div
+            <Link
               key={partner.id}
-              className="flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all duration-300"
+              href={`/partners/${partner.id}`}
+              className="flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105"
             >
               <img
                 src={`https://tycc.e-saloon.online/public/storage/${partner.logo}` || "/placeholder.svg"}
                 alt={partner.name}
                 className="w-full h-auto max-h-24 object-contain"
               />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
