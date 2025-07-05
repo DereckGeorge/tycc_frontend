@@ -50,10 +50,10 @@ export const metadata: Metadata = {
     siteName: 'Tanzania Youth Chamber of Commerce',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'TYCC - Empowering Young Entrepreneurs',
+        url: '/logo.png',
+        width: 300,
+        height: 300,
+        alt: 'TYCC Logo',
       },
     ],
     locale: 'en_US',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Tanzania Youth Chamber of Commerce (TYCC) - Empowering Young Entrepreneurs",
     description: "TYCC is Tanzania's premier organization supporting young entrepreneurs with business training, mentorship, funding opportunities, and networking events.",
-    images: ['/twitter-image.jpg'],
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -91,9 +91,14 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1e40af" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <link rel="canonical" href="https://tycc.e-saloon.online" />
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
       </head>
       <body className={inter.className}>
         <Header />
