@@ -23,9 +23,7 @@ export function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-tycc-blue rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">T</span>
-            </div>
+            <img src="/logo.png" alt="TYCC Logo" className="w-12 h-12 object-contain" />
             <div>
               <h1 className="text-xl font-bold text-tycc-blue">TYCC</h1>
               <p className="text-xs text-gray-600">Tanzania Youth Chamber</p>

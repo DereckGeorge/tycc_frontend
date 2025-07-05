@@ -36,9 +36,7 @@ export function Footer() {
           {/* Organization Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-tycc-blue rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-xl">T</span>
-              </div>
+              <img src="/logo.png" alt="TYCC Logo" className="w-12 h-12 object-contain" />
               <div>
                 <h3 className="text-xl font-bold">TYCC</h3>
                 <p className="text-sm text-gray-400">Tanzania Youth Chamber</p>

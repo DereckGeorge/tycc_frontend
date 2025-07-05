@@ -14,7 +14,6 @@ interface Program {
   participants: string
   icon: string
   featured: string
-  image: string
 }
 
 export function FeaturedPrograms() {
@@ -113,11 +112,6 @@ export function FeaturedPrograms() {
                   <span>Duration: {program.duration}</span>
                   <span>{program.participants}+ participants</span>
                 </div>
-                <img
-                  src={`https://tycc.e-saloon.online/public/storage/${program.image}` || "/placeholder.svg"}
-                  alt={program.title}
-                  className="w-full h-full object-cover"
-                />
               </CardContent>
             </Card>
           ))}
