@@ -5,9 +5,12 @@ const API_BASE_URL = "https://tycc.e-saloon.online/api/v1"
 export async function GET() {
   try {
     const response = await fetch(`${API_BASE_URL}/webinars`, {
+      method: 'GET',
       headers: {
         'accept': '*/*',
-        'X-CSRF-TOKEN': ''
+        'X-CSRF-TOKEN': '',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
       }
     })
 
