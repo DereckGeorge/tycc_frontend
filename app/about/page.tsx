@@ -61,7 +61,7 @@ export default function AboutPage() {
             <h2 className="text-4xl font-bold text-tycc-blue mb-6">Our Story</h2>
             <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-700 leading-relaxed">
               <p>
-                Founded in 2018, the Tanzania Youth Chamber of Commerce emerged from a vision to bridge the gap between
+                Founded in 2025, the Tanzania Youth Chamber of Commerce emerged from a vision to bridge the gap between
                 young entrepreneurs and sustainable business opportunities. Recognizing that youth represent over 60% of
                 Tanzania's population, our founders saw the immense potential for economic transformation through youth
                 empowerment.

@@ -39,7 +39,7 @@ export function Footer() {
               <img src="/logo.png" alt="TYCC Logo" className="w-12 h-12 object-contain" />
               <div>
                 <h3 className="text-xl font-bold">TYCC</h3>
-                <p className="text-sm text-gray-400">Tanzania Youth Chamber</p>
+                <p className="text-sm text-gray-400">Tanzania Youth Chamber of Commerce</p>
               </div>
             </div>
             <p className="text-gray-300 leading-relaxed">
