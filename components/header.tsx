@@ -26,7 +26,7 @@ export function Header() {
             <img src="/logo.png" alt="TYCC Logo" className="w-12 h-12 object-contain" />
             <div>
               <h1 className="text-xl font-bold text-tycc-blue">TYCC</h1>
-              <p className="text-xs text-gray-600">Tanzania Youth Chamber</p>
+              <p className="text-xs text-gray-600">Tanzania Youth Chamber of Commerce</p>
             </div>
           </Link>
 
@@ -45,7 +45,7 @@ export function Header() {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link href="/contact" className="btn-primary">
+            <Link href="/join" className="btn-primary">
               Join TYCC
             </Link>
           </div>
@@ -73,7 +73,7 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              <Link href="/contact" className="btn-primary inline-block text-center mt-4">
+              <Link href="/join" className="btn-primary inline-block text-center mt-4">
                 Join TYCC
               </Link>
             </nav>
