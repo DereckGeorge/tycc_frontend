@@ -300,6 +300,25 @@ export default function PartnershipsPage() {
             <Button
               variant="outline"
               className="border-white text-white hover:bg-white hover:text-tycc-blue bg-transparent"
+              onClick={async () => {
+                try {
+                  const response = await fetch('https://tycc.e-saloon.online/public/storage/partners/TYCC_Collaboration_Framework.pdf')
+                  const blob = await response.blob()
+                  const url = window.URL.createObjectURL(blob)
+                  const link = document.createElement('a')
+                  link.href = url
+                  link.download = 'TYCC_Partnership_Brochure.pdf'
+                  link.style.display = 'none'
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                  window.URL.revokeObjectURL(url)
+                } catch (error) {
+                  console.error('Download failed:', error)
+                  // Fallback to direct download
+                  window.open('https://tycc.e-saloon.online/public/storage/partners/TYCC_Collaboration_Framework.pdf', '_blank')
+                }
+              }}
             >
               Download Partnership Brochure
             </Button>
