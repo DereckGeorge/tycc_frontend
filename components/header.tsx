@@ -12,7 +12,8 @@ export function Header() {
     { name: "About TYCC", href: "/about" },
     { name: "Programs", href: "/programs" },
     { name: "Resources", href: "/resources" },
-    { name: "News & Events", href: "/news-events" },
+    { name: "News", href: "/news-events" },
+    { name: "Galleries", href: "/galleries" },
     { name: "Partnerships", href: "/partnerships" },
     { name: "Contact Us", href: "/contact" },
   ]
@@ -31,17 +32,32 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-700 hover:text-tycc-blue font-medium transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden md:flex space-x-8">
+            <Link href="/" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Home
+            </Link>
+            <Link href="/about" className="text-gray-900 hover:text-tycc-blue font-medium">
+              About
+            </Link>
+            <Link href="/programs" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Programs
+            </Link>
+            <Link href="/news-events" className="text-gray-900 hover:text-tycc-blue font-medium">
+              News
+            </Link>
+            <Link href="/galleries" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Galleries
+            </Link>
+            <Link href="/partnerships" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Partnerships
+            </Link>
+            <Link href="/resources" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Resources
+            </Link>
+            <Link href="/contact" className="text-gray-900 hover:text-tycc-blue font-medium">
+              Contact
+            </Link>
+          </div>
 
           {/* CTA Button */}
           <div className="hidden lg:block">
