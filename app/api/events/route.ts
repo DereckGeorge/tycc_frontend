@@ -9,9 +9,11 @@ export async function GET() {
       headers: {
         'accept': '*/*',
         'X-CSRF-TOKEN': '',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-      }
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      },
+      cache: 'no-store' // Force fresh data
     })
 
     if (!response.ok) {
@@ -19,7 +21,17 @@ export async function GET() {
     }
 
     const data = await response.json()
-    return NextResponse.json(data.data || [])
+    
+    // Return fresh data with cache control headers
+    return new NextResponse(JSON.stringify(data.data || []), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    })
   } catch (error) {
     console.error('Error fetching events:', error)
     return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 })
